@@ -1,6 +1,7 @@
 package com.demo.weatherapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.inputmethodservice.Keyboard;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -24,10 +25,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-
-
-    /*$ git config --global user.name "Viktoriia Omelchenko"
-    $ git config --global user.email "omelchenko.viktoriia7@gmail.com"*/
 
     private final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/find?q=%s&appid=83a2756835fd80cbbe7064c916506386&lang=ua&units=metric"; //Не забудьте ввести свой APPID после '='
 
@@ -91,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
                 String description = jsonObject.getJSONArray("list").getJSONObject(0).getJSONArray("weather").getJSONObject(0).getString("description");
                 String weather = String.format("%s\nТемпература: %s\nНа дворі: %s", editTextCity.getText(), temp, description);
                 textViewWeather.setText(weather);
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
             } catch (JSONException e) {
                 Toast.makeText(getApplicationContext(), "Такого міста не існує!", Toast.LENGTH_SHORT).show();
                 textViewWeather.setText("");
